@@ -1,0 +1,3425 @@
+{
+	"xlsx": {
+		"survey": [
+			{
+				"comments": "This is the main survey worksheet that is core of the form.",
+				"_row_num": 3
+			},
+			{
+				"comments": "For better view of the form in the app we can devide it into sections. Each section is represented by different worksheet. Here are presented fiew of them.",
+				"_row_num": 4
+			},
+			{
+				"comments": "branch_label is used to identify which part of the survey to branch to. In this example it ensures proper menu of choosing sections.",
+				"_row_num": 5
+			},
+			{
+				"comments": "clause is used in conjunction with the condition column to manage the control flow of the survey. There is a better example in name worksheet.",
+				"_row_num": 6
+			},
+			{
+				"comments": "type is the type of the field e.g. text or integer",
+				"_row_num": 7
+			},
+			{
+				"comments": "display.text is text that will be displayed on the screen. We can define other languages in settings tab and use it after dot as it is here - \"display.text.spanish\"",
+				"_row_num": 8
+			},
+			{
+				"comments": "values_list is the name of query or choice that are defined in proper tabs",
+				"_row_num": 9
+			},
+			{
+				"branch_label": "welcome_screen",
+				"_row_num": 11
+			},
+			{
+				"type": "user_branch",
+				"values_list": "which_section",
+				"display": {
+					"text": {
+						"default": "Choose a survey to fill out",
+						"spanish": "Elija una encuesta para rellenar"
+					}
+				},
+				"_row_num": 12
+			},
+			{
+				"clause": "goto welcome_screen",
+				"_row_num": 13
+			},
+			{
+				"branch_label": "stoplight_income_form",
+				"_row_num": 14
+			},
+			{
+				"comments": "To go to section we use command \"do section\" + name of section",
+				"clause": "do section stoplight_income",
+				"_row_num": 15
+			},
+			{
+				"comments": "\"go to\" command is used to go back to menu screen",
+				"clause": "goto welcome_screen",
+				"_row_num": 16
+			},
+			{
+				"branch_label": "required_form",
+				"_row_num": 17
+			},
+			{
+				"clause": "do section required",
+				"_row_num": 18
+			},
+			{
+				"clause": "goto welcome_screen",
+				"_row_num": 19
+			},
+			{
+				"branch_label": "economic_form",
+				"_row_num": 20
+			},
+			{
+				"clause": "do section economic",
+				"_row_num": 21
+			},
+			{
+				"clause": "goto welcome_screen",
+				"_row_num": 22
+			},
+			{
+				"branch_label": "location_form",
+				"_row_num": 23
+			},
+			{
+				"clause": "do section location",
+				"_row_num": 24
+			},
+			{
+				"clause": "goto welcome_screen",
+				"_row_num": 25
+			},
+			{
+				"branch_label": "picture_form",
+				"_row_num": 26
+			},
+			{
+				"clause": "do section picture",
+				"_row_num": 27
+			},
+			{
+				"clause": "goto welcome_screen",
+				"_row_num": 28
+			},
+			{
+				"branch_label": "exitpath",
+				"_row_num": 29
+			},
+			{
+				"clause": "validate user_info",
+				"_row_num": 30
+			},
+			{
+				"comments": "This line is used to validate if user completed all the required fields in survey in case of skipping any section",
+				"clause": "exit section",
+				"_row_num": 31
+			},
+			{
+				"comments": "Exit section is used to go out of section",
+				"_row_num": 32
+			}
+		],
+		"required": [
+			{
+				"comments": "This worksheet shows how to create required questions with information that they are required below field.",
+				"_row_num": 3
+			},
+			{
+				"comments": "required defines that field is required",
+				"_row_num": 4
+			},
+			{
+				"comments": "display.hint is used to dispaly small text below the field",
+				"_row_num": 5
+			},
+			{
+				"comments": "validation_tags are used to tag groups of fields that we want to validate",
+				"_row_num": 6
+			},
+			{
+				"comments": "To check if value was already entered by user we need to get value of field. To do so we use 'data('name_of_field') == null' that checks it",
+				"_row_num": 7
+			},
+			{
+				"comments": "In forms we can use css and html attribiutes. Here it is used div with \"req\" class that is defined in css file(example file in form folder). This file must always have name \"customStyles\"",
+				"_row_num": 8
+			},
+			{
+				"comments": "We can also use calcutions defined in calculates worksheet. Here is an example that show us if user is an adult yet or not.",
+				"_row_num": 9
+			},
+			{
+				"comments": "It is possible to display data that user already filled in. To do so we use {{data.x}} where x is the name of the field where data was collected",
+				"_row_num": 10
+			},
+			{
+				"comments": "begin screen and end screen are used to defined the begin and end of the screen if we want to have multiple fields on one screen.",
+				"clause": "begin screen",
+				"_row_num": 12
+			},
+			{
+				"type": "select_one_dropdown",
+				"values_list": "area_type",
+				"name": "Area",
+				"display": {
+					"text": {
+						"default": "Residential area",
+						"spanish": "Área de residencia"
+					}
+				},
+				"required": true,
+				"validation_tags": "user_info",
+				"_row_num": 13
+			},
+			{
+				"clause": "if",
+				"condition": "data('Area') == null",
+				"_row_num": 14
+			},
+			{
+				"type": "note",
+				"display": {
+					"hint": {
+						"default": "<div class=\"req\">This field is required</div>",
+						"spanish": "<div class=\"req\">Este campo es requerido</div>"
+					}
+				},
+				"_row_num": 15
+			},
+			{
+				"clause": "end if",
+				"_row_num": 16
+			},
+			{
+				"type": "select_one_dropdown",
+				"values_list": "principal_activity",
+				"name": "Principal",
+				"display": {
+					"text": {
+						"default": "What is your main economic activity?",
+						"spanish": "¿Cuál es su actividad económica principal?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 17
+			},
+			{
+				"type": "select_one_dropdown",
+				"values_list": "secondary_activity",
+				"name": "Secondary",
+				"display": {
+					"text": {
+						"default": "What is your secondary economic activity?",
+						"spanish": "¿Cuál es su actividad económica secundaria?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 18
+			},
+			{
+				"clause": "end screen",
+				"_row_num": 19
+			}
+		],
+		"economic": [
+			{
+				"comments": "This worksheet shows how to create required questions with information that they are required below field.",
+				"_row_num": 3
+			},
+			{
+				"comments": "required defines that field is required",
+				"_row_num": 4
+			},
+			{
+				"comments": "display.hint is used to dispaly small text below the field",
+				"_row_num": 5
+			},
+			{
+				"comments": "validation_tags are used to tag groups of fields that we want to validate",
+				"_row_num": 6
+			},
+			{
+				"comments": "To check if value was already entered by user we need to get value of field. To do so we use 'data('name_of_field') == null' that checks it",
+				"_row_num": 7
+			},
+			{
+				"comments": "In forms we can use css and html attribiutes. Here it is used div with \"req\" class that is defined in css file(example file in form folder). This file must always have name \"customStyles\"",
+				"_row_num": 8
+			},
+			{
+				"comments": "We can also use calcutions defined in calculates worksheet. Here is an example that show us if user is an adult yet or not.",
+				"_row_num": 9
+			},
+			{
+				"comments": "It is possible to display data that user already filled in. To do so we use {{data.x}} where x is the name of the field where data was collected",
+				"_row_num": 10
+			},
+			{
+				"comments": "begin screen and end screen are used to defined the begin and end of the screen if we want to have multiple fields on one screen.",
+				"clause": "begin screen",
+				"_row_num": 12
+			},
+			{
+				"type": "integer",
+				"name": "Salary",
+				"display": {
+					"text": {
+						"default": "How much is your monthly salary?",
+						"spanish": "¿Cuánto es su salario mensual?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 13
+			},
+			{
+				"type": "select_one_dropdown",
+				"values_list": "yes_no",
+				"name": "Unpaid",
+				"display": {
+					"text": {
+						"default": "Do you have an unpaid job?",
+						"spanish": "¿Tiene una actividad económica no asalariada?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 14
+			},
+			{
+				"type": "integer",
+				"name": "WeeklySales",
+				"display": {
+					"text": {
+						"default": "How much do you sell weekly?",
+						"spanish": "¿Cuánto es su venta semanal?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 15
+			},
+			{
+				"type": "integer",
+				"name": "WeeklyExpenses",
+				"display": {
+					"text": {
+						"default": "How much are your weekly expenses?",
+						"spanish": "¿Cuánto es su gasto semanal?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 16
+			},
+			{
+				"type": "integer",
+				"name": "FamilySize",
+				"display": {
+					"text": {
+						"default": "How many people live in your house?",
+						"spanish": "¿Cuántas personas viven en su casa?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 17
+			},
+			{
+				"type": "integer",
+				"name": "Earners",
+				"display": {
+					"text": {
+						"default": "How many people earn money in your home?",
+						"spanish": "¿Cuántas personas ganan plata en su casa?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 18
+			},
+			{
+				"type": "integer",
+				"name": "Children",
+				"display": {
+					"text": {
+						"default": "How many people are under 18 years old in your house?",
+						"spanish": "¿Cuántas personas son menores a 18 años en su casa?"
+					}
+				},
+				"required": false,
+				"validation_tags": "user_info",
+				"_row_num": 19
+			},
+			{
+				"clause": "end screen",
+				"_row_num": 20
+			}
+		],
+		"picture": [
+			{
+				"comments": "This worksheet is used to capture image and video in survey.",
+				"_row_num": 3
+			},
+			{
+				"type": "image",
+				"name": "picture",
+				"display": {
+					"text": {
+						"default": "Take a picture.",
+						"spanish": "Toma una foto"
+					}
+				},
+				"_row_num": 5
+			}
+		],
+		"location": [
+			{
+				"comments": "This worksheet is used to capture geolocation.",
+				"_row_num": 3
+			},
+			{
+				"type": "geopoint",
+				"name": "location",
+				"display": {
+					"text": {
+						"default": "Capture your location",
+						"spanish": "Capturar su ubicación"
+					}
+				},
+				"_row_num": 5
+			}
+		],
+		"stoplight_income": [
+			{
+				"comments": "This worksheet is used to show how image based multiple choice questions works.",
+				"_row_num": 3
+			},
+			{
+				"comments": "select_one_slider is an option created specially for image based questions, which allows to answer question with an image",
+				"_row_num": 4
+			},
+			{
+				"clause": "begin screen",
+				"_row_num": 6
+			},
+			{
+				"type": "select_one_slider",
+				"values_list": "stable_income",
+				"name": "stable",
+				"display": {
+					"text": {
+						"default": "Stable income",
+						"spanish": "Ingresos estables"
+					}
+				},
+				"_row_num": 7
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('stable'), 'red')",
+				"_row_num": 8
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Red selected",
+						"spanish": "Rojo seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 9
+			},
+			{
+				"clause": "end if",
+				"_row_num": 10
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('stable'), 'yellow')",
+				"_row_num": 11
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Yellow selected",
+						"spanish": "Amarillo seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 12
+			},
+			{
+				"clause": "end if",
+				"_row_num": 13
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('stable'), 'green')",
+				"_row_num": 14
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Green selected",
+						"spanish": "Verde seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 15
+			},
+			{
+				"clause": "end if",
+				"_row_num": 16
+			},
+			{
+				"clause": "end screen",
+				"_row_num": 17
+			},
+			{
+				"clause": "begin screen",
+				"_row_num": 18
+			},
+			{
+				"type": "select_one_slider",
+				"values_list": "credit_values",
+				"name": "credit",
+				"display": {
+					"text": {
+						"default": "Credit",
+						"spanish": "Crédito"
+					}
+				},
+				"_row_num": 19
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('credit'), 'red')",
+				"_row_num": 20
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Red selected",
+						"spanish": "Rojo seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 21
+			},
+			{
+				"clause": "end if",
+				"_row_num": 22
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('credit'), 'yellow')",
+				"_row_num": 23
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Yellow selected",
+						"spanish": "Amarillo seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 24
+			},
+			{
+				"clause": "end if",
+				"_row_num": 25
+			},
+			{
+				"clause": "if",
+				"condition": "selected(data('credit'), 'green')",
+				"_row_num": 26
+			},
+			{
+				"type": "note",
+				"display": {
+					"text": {
+						"default": "Green selected",
+						"spanish": "Verde seleccionado"
+					}
+				},
+				"hideInContents": 1,
+				"_row_num": 27
+			},
+			{
+				"clause": "end if",
+				"_row_num": 28
+			},
+			{
+				"clause": "end screen",
+				"_row_num": 29
+			}
+		],
+		"choices": [
+			{
+				"comments": "Choices worksheet is used to make some list of choices that user can make in survey",
+				"_row_num": 3
+			},
+			{
+				"comments": "choice_list_name is the name of list that we use in survey",
+				"_row_num": 4
+			},
+			{
+				"comments": "data_value refers each value in list",
+				"_row_num": 5
+			},
+			{
+				"comments": "display.image is used to dispaly images in survey",
+				"_row_num": 6
+			},
+			{
+				"choice_list_name": "area_type",
+				"data_value": "metropolitan",
+				"display": {
+					"text": {
+						"default": "Metropolitan",
+						"spanish": "Metropolitana"
+					}
+				},
+				"_row_num": 8
+			},
+			{
+				"choice_list_name": "area_type",
+				"data_value": "urban",
+				"display": {
+					"text": {
+						"default": "Urban",
+						"spanish": "Urbana"
+					}
+				},
+				"_row_num": 9
+			},
+			{
+				"choice_list_name": "area_type",
+				"data_value": "rural",
+				"display": {
+					"text": {
+						"default": "Rural",
+						"spanish": "Rural"
+					}
+				},
+				"_row_num": 10
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "sales",
+				"display": {
+					"text": {
+						"default": "Sales",
+						"spanish": "Ventas (Despensa, Copetín, Comestible)"
+					}
+				},
+				"_row_num": 12
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "manufacturing",
+				"display": {
+					"text": {
+						"default": "Manufacturing",
+						"spanish": "Manufactura (Artesanía, Ao Po'i)"
+					}
+				},
+				"_row_num": 13
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "services",
+				"display": {
+					"text": {
+						"default": "Services",
+						"spanish": "Servicios (Peluquería, Servicio de limpieza, manicura)"
+					}
+				},
+				"_row_num": 14
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "teaching",
+				"display": {
+					"text": {
+						"default": "Teaching",
+						"spanish": "Enseñanza"
+					}
+				},
+				"_row_num": 15
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "private_business",
+				"display": {
+					"text": {
+						"default": "Employee of a private business",
+						"spanish": "Empleado/a de empresa privada"
+					}
+				},
+				"_row_num": 16
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "public_business",
+				"display": {
+					"text": {
+						"default": "Employee of a public business",
+						"spanish": "Empleado/a del sector publico"
+					}
+				},
+				"_row_num": 17
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "other",
+				"display": {
+					"text": {
+						"default": "Other",
+						"spanish": "Otros"
+					}
+				},
+				"_row_num": 18
+			},
+			{
+				"choice_list_name": "principal_activity",
+				"data_value": "none",
+				"display": {
+					"text": {
+						"default": "Doesn't have one",
+						"spanish": "No tiene"
+					}
+				},
+				"_row_num": 19
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_sales",
+				"display": {
+					"text": {
+						"default": "Sales",
+						"spanish": "Ventas (Despensa, Copetín, Comestible)"
+					}
+				},
+				"_row_num": 22
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_manufacturing",
+				"display": {
+					"text": {
+						"default": "Manufacturing",
+						"spanish": "Manufactura (Artesanía, Ao Po'i)"
+					}
+				},
+				"_row_num": 23
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_services",
+				"display": {
+					"text": {
+						"default": "Services",
+						"spanish": "Servicios (Peluquería, Servicio de limpieza, manicura)"
+					}
+				},
+				"_row_num": 24
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "teaching",
+				"display": {
+					"text": {
+						"default": "Teaching",
+						"spanish": "Enseñanza"
+					}
+				},
+				"_row_num": 25
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_private_business",
+				"display": {
+					"text": {
+						"default": "Employee of a private business",
+						"spanish": "Empleado/a de empresa privada"
+					}
+				},
+				"_row_num": 26
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_public_business",
+				"display": {
+					"text": {
+						"default": "Employee of a public business",
+						"spanish": "Empleado/a del sector publico"
+					}
+				},
+				"_row_num": 27
+			},
+			{
+				"choice_list_name": "secondary_activity",
+				"data_value": "second_none",
+				"display": {
+					"text": {
+						"default": "Don't have one",
+						"spanish": "No tiene"
+					}
+				},
+				"_row_num": 28
+			},
+			{
+				"choice_list_name": "stable_income",
+				"data_value": "income_red",
+				"display": {
+					"text": {
+						"default": "Family income varies more than 30% monthly",
+						"spanish": "Los ingresos familiares varían más del 30% de un mes para el otro."
+					},
+					"image": "media/income_red.png"
+				},
+				"_row_num": 31
+			},
+			{
+				"choice_list_name": "stable_income",
+				"data_value": "income_yellow",
+				"display": {
+					"text": {
+						"default": "Family income varies between 15% and 30% monthly",
+						"spanish": "Los ingresos familiares varían más del 15% y hasta en 30% de un mes para el otro."
+					},
+					"image": "media/income_yellow.png"
+				},
+				"_row_num": 32
+			},
+			{
+				"choice_list_name": "stable_income",
+				"data_value": "income_green",
+				"display": {
+					"text": {
+						"default": "Family income does not vary more than 15% mothly over 6 months",
+						"spanish": "Los ingresos familiares no varían de más de 15% de un mes al otro desde hace 6 meses."
+					},
+					"image": "media/income_green.png"
+				},
+				"_row_num": 33
+			},
+			{
+				"choice_list_name": "credit_values",
+				"data_value": "credit_red",
+				"display": {
+					"text": {
+						"default": "The family doesn't have access to credit (formal or informal) or only has acces to credit from loan sharks",
+						"spanish": "La familia no tiene acceso a ningún tipo de crédito formal ni informal o tiene acceso a crédito de usureros"
+					},
+					"image": "media/credit_red.png"
+				},
+				"_row_num": 35
+			},
+			{
+				"choice_list_name": "credit_values",
+				"data_value": "credit_yellow",
+				"display": {
+					"text": {
+						"default": "Family members only have acces to informal credit cources",
+						"spanish": "Un miembro de la familia tiene acceso a créditos informales solamente."
+					},
+					"image": "media/credit_yellow.png"
+				},
+				"_row_num": 36
+			},
+			{
+				"choice_list_name": "credit_values",
+				"data_value": "credit_green",
+				"display": {
+					"text": {
+						"default": "At least one member of the family has access to formal credit under market conditions",
+						"spanish": "Al menos un miembro de la familia  tiene acceso a créditos productivos  formales en condiciones de mercado."
+					},
+					"image": "media/credit_green.png"
+				},
+				"_row_num": 37
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "required_form",
+				"display": {
+					"text": {
+						"default": "Fill your personal data",
+						"spanish": "Rellene sus datos personales"
+					}
+				},
+				"_row_num": 39
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "economic_form",
+				"display": {
+					"text": {
+						"default": "Economic Analysis",
+						"spanish": "Análisis económico del encuestado"
+					}
+				},
+				"_row_num": 40
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "picture_form",
+				"display": {
+					"text": {
+						"default": "Take a Picture",
+						"spanish": "Toma una foto"
+					}
+				},
+				"_row_num": 41
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "stoplight_income_form",
+				"display": {
+					"text": {
+						"default": "Stoplight Questions",
+						"spanish": "Preguntas de semáforo"
+					}
+				},
+				"_row_num": 42
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "location_form",
+				"display": {
+					"text": {
+						"default": "Location",
+						"spanish": "Ubicación"
+					}
+				},
+				"_row_num": 43
+			},
+			{
+				"choice_list_name": "which_section",
+				"data_value": "exitpath",
+				"display": {
+					"text": {
+						"default": "Exit Survey",
+						"spanish": "Encuesta de salida"
+					}
+				},
+				"_row_num": 44
+			},
+			{
+				"choice_list_name": "yes_no",
+				"data_value": "yes",
+				"display": {
+					"text": {
+						"default": "Yes",
+						"spanish": "Sí"
+					}
+				},
+				"_row_num": 46
+			},
+			{
+				"choice_list_name": "yes_no",
+				"data_value": "no",
+				"display": {
+					"text": {
+						"default": "No",
+						"spanish": "No"
+					}
+				},
+				"_row_num": 47
+			}
+		],
+		"calculates": [
+			{
+				"comments": "Calculates worksheet is used to define calculations based on javascript expression or data filled in survey which can be used elsewhere in the workbook by referencing the individual calculation_name.",
+				"_row_num": 3
+			}
+		],
+		"settings": [
+			{
+				"comments": "This is settings worksheet. Here all settings of form are defined.",
+				"_row_num": 3
+			},
+			{
+				"comments": "survey is the name of the survey that will be displayed in application.",
+				"_row_num": 4
+			},
+			{
+				"comments": "form_id and table_id are used to define form, basically it is name of the xlsx file",
+				"_row_num": 5
+			},
+			{
+				"comments": "form_version is version of form, basically it is date when form was created, but if it is a subform it is needed to add \"sub_\" prefix to value.",
+				"_row_num": 6
+			},
+			{
+				"comments": "default is used to set default language of form",
+				"_row_num": 7
+			},
+			{
+				"comments": "spanish and hindi are names of lanuguages that form will be able to process",
+				"_row_num": 8
+			},
+			{
+				"comments": "select, required, picture, subform, slider, location are names of sections that were defined before",
+				"_row_num": 9
+			},
+			{
+				"comments": "instance_name is used to connect form and subform",
+				"_row_num": 10
+			},
+			{
+				"setting_name": "survey",
+				"display": {
+					"title": {
+						"default": "Poverty Stoplight Example",
+						"spanish": "El Semáforo de Eliminación de Pobreza"
+					}
+				},
+				"_row_num": 12
+			},
+			{
+				"setting_name": "table_id",
+				"value": "poverty_stoplight_madison",
+				"_row_num": 13
+			},
+			{
+				"setting_name": "form_id",
+				"value": "poverty_stoplight_madison",
+				"_row_num": 14
+			},
+			{
+				"setting_name": "form_version",
+				"value": 20170327,
+				"_row_num": 15
+			},
+			{
+				"setting_name": "default",
+				"display": {
+					"text": {
+						"default": "English",
+						"spanish": "English"
+					}
+				},
+				"_row_num": 16
+			},
+			{
+				"setting_name": "spanish",
+				"display": {
+					"text": {
+						"default": "Español",
+						"spanish": "Español"
+					}
+				},
+				"_row_num": 17
+			},
+			{
+				"setting_name": "required",
+				"display": {
+					"title": {
+						"default": "Enter your information",
+						"spanish": "Rellene su información"
+					}
+				},
+				"_row_num": 18
+			},
+			{
+				"setting_name": "economic",
+				"display": {
+					"title": {
+						"default": "Economic information",
+						"spanish": "Análisis económico del encuestado"
+					}
+				},
+				"_row_num": 19
+			},
+			{
+				"setting_name": "picture",
+				"display": {
+					"title": {
+						"default": "Take a picture",
+						"spanish": "Toma un foto"
+					}
+				},
+				"_row_num": 20
+			},
+			{
+				"setting_name": "stoplight_income",
+				"display": {
+					"title": {
+						"default": "Income and Employment",
+						"spanish": "Ingresos y empleo"
+					}
+				},
+				"_row_num": 21
+			},
+			{
+				"setting_name": "location",
+				"display": {
+					"title": {
+						"default": "Location",
+						"spanish": "Ubicación"
+					}
+				},
+				"_row_num": 22
+			}
+		]
+	},
+	"specification": {
+		"column_types": {
+			"_screen_block": "function",
+			"condition": "formula",
+			"constraint": "formula",
+			"required": "formula",
+			"calculation": "formula",
+			"auxillaryHash": "formula",
+			"selectionArgs": "formula",
+			"url": "formula",
+			"uri": "formula",
+			"callback": "formula(context)",
+			"choice_filter": "formula(choice_item)",
+			"templatePath": "requirejs_path",
+			"image": "app_path_localized",
+			"audio": "app_path_localized",
+			"video": "app_path_localized"
+		},
+		"settings": {
+			"survey": {
+				"setting_name": "survey",
+				"display": {
+					"title": {
+						"default": "Poverty Stoplight Example",
+						"spanish": "El Semáforo de Eliminación de Pobreza"
+					}
+				},
+				"_row_num": 12
+			},
+			"table_id": {
+				"setting_name": "table_id",
+				"value": "poverty_stoplight_madison",
+				"_row_num": 13
+			},
+			"form_id": {
+				"setting_name": "form_id",
+				"value": "poverty_stoplight_madison",
+				"_row_num": 14
+			},
+			"form_version": {
+				"setting_name": "form_version",
+				"value": 20170327,
+				"_row_num": 15
+			},
+			"default": {
+				"setting_name": "default",
+				"display": {
+					"text": {
+						"default": "English",
+						"spanish": "English"
+					}
+				},
+				"_row_num": 16
+			},
+			"spanish": {
+				"setting_name": "spanish",
+				"display": {
+					"text": {
+						"default": "Español",
+						"spanish": "Español"
+					}
+				},
+				"_row_num": 17
+			},
+			"required": {
+				"setting_name": "required",
+				"display": {
+					"title": {
+						"default": "Enter your information",
+						"spanish": "Rellene su información"
+					}
+				},
+				"_row_num": 18
+			},
+			"economic": {
+				"setting_name": "economic",
+				"display": {
+					"title": {
+						"default": "Economic information",
+						"spanish": "Análisis económico del encuestado"
+					}
+				},
+				"_row_num": 19
+			},
+			"picture": {
+				"setting_name": "picture",
+				"display": {
+					"title": {
+						"default": "Take a picture",
+						"spanish": "Toma un foto"
+					}
+				},
+				"_row_num": 20
+			},
+			"stoplight_income": {
+				"setting_name": "stoplight_income",
+				"display": {
+					"title": {
+						"default": "Income and Employment",
+						"spanish": "Ingresos y empleo"
+					}
+				},
+				"_row_num": 21
+			},
+			"location": {
+				"setting_name": "location",
+				"display": {
+					"title": {
+						"default": "Location",
+						"spanish": "Ubicación"
+					}
+				},
+				"_row_num": 22
+			},
+			"_locales": {
+				"setting_name": "_locales",
+				"_row_num": 12,
+				"value": [
+					{
+						"display": {
+							"text": {
+								"default": "English",
+								"spanish": "English"
+							}
+						},
+						"_row_num": 16,
+						"name": "default"
+					},
+					{
+						"display": {
+							"text": {
+								"default": "Español",
+								"spanish": "Español"
+							}
+						},
+						"_row_num": 17,
+						"name": "spanish"
+					}
+				]
+			},
+			"_default_locale": {
+				"setting_name": "_default_locale",
+				"_row_num": 12,
+				"value": "default"
+			},
+			"initial": {
+				"setting_name": "survey",
+				"display": {
+					"title": {
+						"default": "Poverty Stoplight Example",
+						"spanish": "El Semáforo de Eliminación de Pobreza"
+					}
+				},
+				"_row_num": 12
+			}
+		},
+		"choices": {
+			"area_type": [
+				{
+					"choice_list_name": "area_type",
+					"data_value": "metropolitan",
+					"display": {
+						"text": {
+							"default": "Metropolitan",
+							"spanish": "Metropolitana"
+						}
+					},
+					"_row_num": 8
+				},
+				{
+					"choice_list_name": "area_type",
+					"data_value": "urban",
+					"display": {
+						"text": {
+							"default": "Urban",
+							"spanish": "Urbana"
+						}
+					},
+					"_row_num": 9
+				},
+				{
+					"choice_list_name": "area_type",
+					"data_value": "rural",
+					"display": {
+						"text": {
+							"default": "Rural",
+							"spanish": "Rural"
+						}
+					},
+					"_row_num": 10
+				}
+			],
+			"principal_activity": [
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "sales",
+					"display": {
+						"text": {
+							"default": "Sales",
+							"spanish": "Ventas (Despensa, Copetín, Comestible)"
+						}
+					},
+					"_row_num": 12
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "manufacturing",
+					"display": {
+						"text": {
+							"default": "Manufacturing",
+							"spanish": "Manufactura (Artesanía, Ao Po'i)"
+						}
+					},
+					"_row_num": 13
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "services",
+					"display": {
+						"text": {
+							"default": "Services",
+							"spanish": "Servicios (Peluquería, Servicio de limpieza, manicura)"
+						}
+					},
+					"_row_num": 14
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "teaching",
+					"display": {
+						"text": {
+							"default": "Teaching",
+							"spanish": "Enseñanza"
+						}
+					},
+					"_row_num": 15
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "private_business",
+					"display": {
+						"text": {
+							"default": "Employee of a private business",
+							"spanish": "Empleado/a de empresa privada"
+						}
+					},
+					"_row_num": 16
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "public_business",
+					"display": {
+						"text": {
+							"default": "Employee of a public business",
+							"spanish": "Empleado/a del sector publico"
+						}
+					},
+					"_row_num": 17
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "other",
+					"display": {
+						"text": {
+							"default": "Other",
+							"spanish": "Otros"
+						}
+					},
+					"_row_num": 18
+				},
+				{
+					"choice_list_name": "principal_activity",
+					"data_value": "none",
+					"display": {
+						"text": {
+							"default": "Doesn't have one",
+							"spanish": "No tiene"
+						}
+					},
+					"_row_num": 19
+				}
+			],
+			"secondary_activity": [
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_sales",
+					"display": {
+						"text": {
+							"default": "Sales",
+							"spanish": "Ventas (Despensa, Copetín, Comestible)"
+						}
+					},
+					"_row_num": 22
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_manufacturing",
+					"display": {
+						"text": {
+							"default": "Manufacturing",
+							"spanish": "Manufactura (Artesanía, Ao Po'i)"
+						}
+					},
+					"_row_num": 23
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_services",
+					"display": {
+						"text": {
+							"default": "Services",
+							"spanish": "Servicios (Peluquería, Servicio de limpieza, manicura)"
+						}
+					},
+					"_row_num": 24
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "teaching",
+					"display": {
+						"text": {
+							"default": "Teaching",
+							"spanish": "Enseñanza"
+						}
+					},
+					"_row_num": 25
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_private_business",
+					"display": {
+						"text": {
+							"default": "Employee of a private business",
+							"spanish": "Empleado/a de empresa privada"
+						}
+					},
+					"_row_num": 26
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_public_business",
+					"display": {
+						"text": {
+							"default": "Employee of a public business",
+							"spanish": "Empleado/a del sector publico"
+						}
+					},
+					"_row_num": 27
+				},
+				{
+					"choice_list_name": "secondary_activity",
+					"data_value": "second_none",
+					"display": {
+						"text": {
+							"default": "Don't have one",
+							"spanish": "No tiene"
+						}
+					},
+					"_row_num": 28
+				}
+			],
+			"stable_income": [
+				{
+					"choice_list_name": "stable_income",
+					"data_value": "income_red",
+					"display": {
+						"text": {
+							"default": "Family income varies more than 30% monthly",
+							"spanish": "Los ingresos familiares varían más del 30% de un mes para el otro."
+						},
+						"image": "media/income_red.png"
+					},
+					"_row_num": 31
+				},
+				{
+					"choice_list_name": "stable_income",
+					"data_value": "income_yellow",
+					"display": {
+						"text": {
+							"default": "Family income varies between 15% and 30% monthly",
+							"spanish": "Los ingresos familiares varían más del 15% y hasta en 30% de un mes para el otro."
+						},
+						"image": "media/income_yellow.png"
+					},
+					"_row_num": 32
+				},
+				{
+					"choice_list_name": "stable_income",
+					"data_value": "income_green",
+					"display": {
+						"text": {
+							"default": "Family income does not vary more than 15% mothly over 6 months",
+							"spanish": "Los ingresos familiares no varían de más de 15% de un mes al otro desde hace 6 meses."
+						},
+						"image": "media/income_green.png"
+					},
+					"_row_num": 33
+				}
+			],
+			"credit_values": [
+				{
+					"choice_list_name": "credit_values",
+					"data_value": "credit_red",
+					"display": {
+						"text": {
+							"default": "The family doesn't have access to credit (formal or informal) or only has acces to credit from loan sharks",
+							"spanish": "La familia no tiene acceso a ningún tipo de crédito formal ni informal o tiene acceso a crédito de usureros"
+						},
+						"image": "media/credit_red.png"
+					},
+					"_row_num": 35
+				},
+				{
+					"choice_list_name": "credit_values",
+					"data_value": "credit_yellow",
+					"display": {
+						"text": {
+							"default": "Family members only have acces to informal credit cources",
+							"spanish": "Un miembro de la familia tiene acceso a créditos informales solamente."
+						},
+						"image": "media/credit_yellow.png"
+					},
+					"_row_num": 36
+				},
+				{
+					"choice_list_name": "credit_values",
+					"data_value": "credit_green",
+					"display": {
+						"text": {
+							"default": "At least one member of the family has access to formal credit under market conditions",
+							"spanish": "Al menos un miembro de la familia  tiene acceso a créditos productivos  formales en condiciones de mercado."
+						},
+						"image": "media/credit_green.png"
+					},
+					"_row_num": 37
+				}
+			],
+			"which_section": [
+				{
+					"choice_list_name": "which_section",
+					"data_value": "required_form",
+					"display": {
+						"text": {
+							"default": "Fill your personal data",
+							"spanish": "Rellene sus datos personales"
+						}
+					},
+					"_row_num": 39
+				},
+				{
+					"choice_list_name": "which_section",
+					"data_value": "economic_form",
+					"display": {
+						"text": {
+							"default": "Economic Analysis",
+							"spanish": "Análisis económico del encuestado"
+						}
+					},
+					"_row_num": 40
+				},
+				{
+					"choice_list_name": "which_section",
+					"data_value": "picture_form",
+					"display": {
+						"text": {
+							"default": "Take a Picture",
+							"spanish": "Toma una foto"
+						}
+					},
+					"_row_num": 41
+				},
+				{
+					"choice_list_name": "which_section",
+					"data_value": "stoplight_income_form",
+					"display": {
+						"text": {
+							"default": "Stoplight Questions",
+							"spanish": "Preguntas de semáforo"
+						}
+					},
+					"_row_num": 42
+				},
+				{
+					"choice_list_name": "which_section",
+					"data_value": "location_form",
+					"display": {
+						"text": {
+							"default": "Location",
+							"spanish": "Ubicación"
+						}
+					},
+					"_row_num": 43
+				},
+				{
+					"choice_list_name": "which_section",
+					"data_value": "exitpath",
+					"display": {
+						"text": {
+							"default": "Exit Survey",
+							"spanish": "Encuesta de salida"
+						}
+					},
+					"_row_num": 44
+				}
+			],
+			"yes_no": [
+				{
+					"choice_list_name": "yes_no",
+					"data_value": "yes",
+					"display": {
+						"text": {
+							"default": "Yes",
+							"spanish": "Sí"
+						}
+					},
+					"_row_num": 46
+				},
+				{
+					"choice_list_name": "yes_no",
+					"data_value": "no",
+					"display": {
+						"text": {
+							"default": "No",
+							"spanish": "No"
+						}
+					},
+					"_row_num": 47
+				}
+			]
+		},
+		"queries": {
+		},
+		"calculates": {
+		},
+		"model": {
+			"Area": {
+				"_defn": [
+					{
+						"_row_num": 13,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "area_type",
+				"elementKey": "Area"
+			},
+			"Principal": {
+				"_defn": [
+					{
+						"_row_num": 17,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "principal_activity",
+				"elementKey": "Principal"
+			},
+			"Secondary": {
+				"_defn": [
+					{
+						"_row_num": 18,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "secondary_activity",
+				"elementKey": "Secondary"
+			},
+			"Salary": {
+				"_defn": [
+					{
+						"_row_num": 13,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Salary"
+			},
+			"Unpaid": {
+				"_defn": [
+					{
+						"_row_num": 14,
+						"section_name": "economic"
+					}
+				],
+				"type": "string",
+				"valuesList": "yes_no",
+				"elementKey": "Unpaid"
+			},
+			"WeeklySales": {
+				"_defn": [
+					{
+						"_row_num": 15,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "WeeklySales"
+			},
+			"WeeklyExpenses": {
+				"_defn": [
+					{
+						"_row_num": 16,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "WeeklyExpenses"
+			},
+			"FamilySize": {
+				"_defn": [
+					{
+						"_row_num": 17,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "FamilySize"
+			},
+			"Earners": {
+				"_defn": [
+					{
+						"_row_num": 18,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Earners"
+			},
+			"Children": {
+				"_defn": [
+					{
+						"_row_num": 19,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Children"
+			},
+			"picture": {
+				"_defn": [
+					{
+						"_row_num": 5,
+						"section_name": "picture"
+					}
+				],
+				"type": "object",
+				"elementType": "mimeUri",
+				"properties": {
+					"uriFragment": {
+						"type": "string",
+						"elementType": "rowpath",
+						"elementKey": "picture_uriFragment"
+					},
+					"contentType": {
+						"type": "string",
+						"elementType": "mimeType",
+						"default": "image/*",
+						"elementKey": "picture_contentType"
+					}
+				},
+				"elementKey": "picture"
+			},
+			"location": {
+				"_defn": [
+					{
+						"_row_num": 5,
+						"section_name": "location"
+					}
+				],
+				"type": "object",
+				"elementType": "geopoint",
+				"properties": {
+					"latitude": {
+						"type": "number",
+						"elementKey": "location_latitude"
+					},
+					"longitude": {
+						"type": "number",
+						"elementKey": "location_longitude"
+					},
+					"altitude": {
+						"type": "number",
+						"elementKey": "location_altitude"
+					},
+					"accuracy": {
+						"type": "number",
+						"elementKey": "location_accuracy"
+					}
+				},
+				"elementKey": "location"
+			},
+			"stable": {
+				"_defn": [
+					{
+						"_row_num": 7,
+						"section_name": "stoplight_income"
+					}
+				],
+				"type": "string",
+				"valuesList": "stable_income",
+				"elementKey": "stable"
+			},
+			"credit": {
+				"_defn": [
+					{
+						"_row_num": 19,
+						"section_name": "stoplight_income"
+					}
+				],
+				"type": "string",
+				"valuesList": "credit_values",
+				"elementKey": "credit"
+			}
+		},
+		"section_names": [
+			"economic",
+			"initial",
+			"location",
+			"picture",
+			"required",
+			"stoplight_income",
+			"survey"
+		],
+		"sections": {
+			"survey": {
+				"section_name": "survey",
+				"nested_sections": {
+					"stoplight_income": true,
+					"required": true,
+					"economic": true,
+					"location": true,
+					"picture": true
+				},
+				"reachable_sections": {
+					"stoplight_income": true,
+					"required": true,
+					"economic": true,
+					"location": true,
+					"picture": true
+				},
+				"prompts": [
+					{
+						"type": "user_branch",
+						"values_list": "which_section",
+						"display": {
+							"text": {
+								"default": "Choose a survey to fill out",
+								"spanish": "Elija una encuesta para rellenar"
+							}
+						},
+						"_row_num": 12,
+						"__rowNum__": 11,
+						"_token_type": "prompt",
+						"_type": "user_branch",
+						"_branch_label_enclosing_screen": "survey/_screen12",
+						"promptIdx": 0
+					},
+					{
+						"comments": "To go to section we use command \"do section\" + name of section",
+						"clause": "do section stoplight_income",
+						"_row_num": 15,
+						"__rowNum__": 14,
+						"_token_type": "prompt",
+						"_do_section_name": "stoplight_income",
+						"_type": "_section",
+						"promptIdx": 1,
+						"display": {
+							"title": {
+								"default": "Income and Employment",
+								"spanish": "Ingresos y empleo"
+							}
+						},
+						"_branch_label_enclosing_screen": "stoplight_income/0"
+					},
+					{
+						"clause": "do section required",
+						"_row_num": 18,
+						"__rowNum__": 17,
+						"_token_type": "prompt",
+						"_do_section_name": "required",
+						"_type": "_section",
+						"promptIdx": 2,
+						"display": {
+							"title": {
+								"default": "Enter your information",
+								"spanish": "Rellene su información"
+							}
+						},
+						"_branch_label_enclosing_screen": "required/0"
+					},
+					{
+						"clause": "do section economic",
+						"_row_num": 21,
+						"__rowNum__": 20,
+						"_token_type": "prompt",
+						"_do_section_name": "economic",
+						"_type": "_section",
+						"promptIdx": 3,
+						"display": {
+							"title": {
+								"default": "Economic information",
+								"spanish": "Análisis económico del encuestado"
+							}
+						},
+						"_branch_label_enclosing_screen": "economic/0"
+					},
+					{
+						"clause": "do section location",
+						"_row_num": 24,
+						"__rowNum__": 23,
+						"_token_type": "prompt",
+						"_do_section_name": "location",
+						"_type": "_section",
+						"promptIdx": 4,
+						"display": {
+							"title": {
+								"default": "Location",
+								"spanish": "Ubicación"
+							}
+						},
+						"_branch_label_enclosing_screen": "location/0"
+					},
+					{
+						"clause": "do section picture",
+						"_row_num": 27,
+						"__rowNum__": 26,
+						"_token_type": "prompt",
+						"_do_section_name": "picture",
+						"_type": "_section",
+						"promptIdx": 5,
+						"display": {
+							"title": {
+								"default": "Take a picture",
+								"spanish": "Toma un foto"
+							}
+						},
+						"_branch_label_enclosing_screen": "picture/0"
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 32,
+						"_branch_label_enclosing_screen": "survey/_screen32",
+						"promptIdx": 6
+					}
+				],
+				"validation_tag_map": {
+				},
+				"operations": [
+					{
+						"_row_num": 12,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"clause": "goto welcome_screen",
+						"_row_num": 13,
+						"__rowNum__": 12,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 1
+					},
+					{
+						"comments": "To go to section we use command \"do section\" + name of section",
+						"clause": "do section stoplight_income",
+						"_row_num": 15,
+						"__rowNum__": 14,
+						"_token_type": "do_section",
+						"_do_section_name": "stoplight_income",
+						"operationIdx": 2
+					},
+					{
+						"comments": "\"go to\" command is used to go back to menu screen",
+						"clause": "goto welcome_screen",
+						"_row_num": 16,
+						"__rowNum__": 15,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 3
+					},
+					{
+						"clause": "do section required",
+						"_row_num": 18,
+						"__rowNum__": 17,
+						"_token_type": "do_section",
+						"_do_section_name": "required",
+						"operationIdx": 4
+					},
+					{
+						"clause": "goto welcome_screen",
+						"_row_num": 19,
+						"__rowNum__": 18,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 5
+					},
+					{
+						"clause": "do section economic",
+						"_row_num": 21,
+						"__rowNum__": 20,
+						"_token_type": "do_section",
+						"_do_section_name": "economic",
+						"operationIdx": 6
+					},
+					{
+						"clause": "goto welcome_screen",
+						"_row_num": 22,
+						"__rowNum__": 21,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 7
+					},
+					{
+						"clause": "do section location",
+						"_row_num": 24,
+						"__rowNum__": 23,
+						"_token_type": "do_section",
+						"_do_section_name": "location",
+						"operationIdx": 8
+					},
+					{
+						"clause": "goto welcome_screen",
+						"_row_num": 25,
+						"__rowNum__": 24,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 9
+					},
+					{
+						"clause": "do section picture",
+						"_row_num": 27,
+						"__rowNum__": 26,
+						"_token_type": "do_section",
+						"_do_section_name": "picture",
+						"operationIdx": 10
+					},
+					{
+						"clause": "goto welcome_screen",
+						"_row_num": 28,
+						"__rowNum__": 27,
+						"_token_type": "goto_label",
+						"_branch_label": "welcome_screen",
+						"operationIdx": 11
+					},
+					{
+						"clause": "validate user_info",
+						"_row_num": 30,
+						"__rowNum__": 29,
+						"_token_type": "validate",
+						"_sweep_name": "user_info",
+						"operationIdx": 12
+					},
+					{
+						"comments": "This line is used to validate if user completed all the required fields in survey in case of skipping any section",
+						"clause": "exit section",
+						"_row_num": 31,
+						"__rowNum__": 30,
+						"_token_type": "exit_section",
+						"operationIdx": 13
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 32,
+						"operationIdx": 14
+					},
+					{
+						"_row_num": 32,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(6);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 15
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 32,
+						"operationIdx": 16
+					}
+				],
+				"branch_label_map": {
+					"welcome_screen": 0,
+					"_screen12": 0,
+					"stoplight_income_form": 2,
+					"required_form": 4,
+					"economic_form": 6,
+					"location_form": 8,
+					"picture_form": 10,
+					"exitpath": 12,
+					"_contents": 15,
+					"_screen32": 15
+				}
+			},
+			"required": {
+				"section_name": "required",
+				"nested_sections": {
+				},
+				"reachable_sections": {
+				},
+				"prompts": [
+					{
+						"type": "select_one_dropdown",
+						"values_list": "area_type",
+						"name": "Area",
+						"display": {
+							"text": {
+								"default": "Residential area",
+								"spanish": "Área de residencia"
+							}
+						},
+						"required": true,
+						"validation_tags": "user_info",
+						"_row_num": 13,
+						"__rowNum__": 12,
+						"_token_type": "prompt",
+						"_type": "select_one_dropdown",
+						"_branch_label_enclosing_screen": "required/_screen12",
+						"promptIdx": 0
+					},
+					{
+						"type": "note",
+						"display": {
+							"hint": {
+								"default": "<div class=\"req\">This field is required</div>",
+								"spanish": "<div class=\"req\">Este campo es requerido</div>"
+							}
+						},
+						"_row_num": 15,
+						"__rowNum__": 14,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "required/_screen12",
+						"promptIdx": 1
+					},
+					{
+						"type": "select_one_dropdown",
+						"values_list": "principal_activity",
+						"name": "Principal",
+						"display": {
+							"text": {
+								"default": "What is your main economic activity?",
+								"spanish": "¿Cuál es su actividad económica principal?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 17,
+						"__rowNum__": 16,
+						"_token_type": "prompt",
+						"_type": "select_one_dropdown",
+						"_branch_label_enclosing_screen": "required/_screen12",
+						"promptIdx": 2
+					},
+					{
+						"type": "select_one_dropdown",
+						"values_list": "secondary_activity",
+						"name": "Secondary",
+						"display": {
+							"text": {
+								"default": "What is your secondary economic activity?",
+								"spanish": "¿Cuál es su actividad económica secundaria?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 18,
+						"__rowNum__": 17,
+						"_token_type": "prompt",
+						"_type": "select_one_dropdown",
+						"_branch_label_enclosing_screen": "required/_screen12",
+						"promptIdx": 3
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 20,
+						"_branch_label_enclosing_screen": "required/_screen20",
+						"promptIdx": 4
+					}
+				],
+				"validation_tag_map": {
+					"user_info": [
+						0,
+						2,
+						3
+					]
+				},
+				"operations": [
+					{
+						"comments": "begin screen and end screen are used to defined the begin and end of the screen if we want to have multiple fields on one screen.",
+						"clause": "begin screen",
+						"_row_num": 12,
+						"__rowNum__": 11,
+						"_token_type": "begin_screen",
+						"_end_screen_clause": {
+							"clause": "end screen",
+							"_row_num": 19,
+							"__rowNum__": 18,
+							"_token_type": "end_screen"
+						},
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\nif (data('Area') == null) {\nactivePromptIndicies.push(1);\n}\nactivePromptIndicies.push(2);\nactivePromptIndicies.push(3);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 20,
+						"operationIdx": 1
+					},
+					{
+						"_row_num": 20,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(4);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 2
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 20,
+						"operationIdx": 3
+					}
+				],
+				"branch_label_map": {
+					"_screen12": 0,
+					"_contents": 2,
+					"_screen20": 2
+				}
+			},
+			"economic": {
+				"section_name": "economic",
+				"nested_sections": {
+				},
+				"reachable_sections": {
+				},
+				"prompts": [
+					{
+						"type": "integer",
+						"name": "Salary",
+						"display": {
+							"text": {
+								"default": "How much is your monthly salary?",
+								"spanish": "¿Cuánto es su salario mensual?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 13,
+						"__rowNum__": 12,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 0
+					},
+					{
+						"type": "select_one_dropdown",
+						"values_list": "yes_no",
+						"name": "Unpaid",
+						"display": {
+							"text": {
+								"default": "Do you have an unpaid job?",
+								"spanish": "¿Tiene una actividad económica no asalariada?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 14,
+						"__rowNum__": 13,
+						"_token_type": "prompt",
+						"_type": "select_one_dropdown",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 1
+					},
+					{
+						"type": "integer",
+						"name": "WeeklySales",
+						"display": {
+							"text": {
+								"default": "How much do you sell weekly?",
+								"spanish": "¿Cuánto es su venta semanal?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 15,
+						"__rowNum__": 14,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 2
+					},
+					{
+						"type": "integer",
+						"name": "WeeklyExpenses",
+						"display": {
+							"text": {
+								"default": "How much are your weekly expenses?",
+								"spanish": "¿Cuánto es su gasto semanal?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 16,
+						"__rowNum__": 15,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 3
+					},
+					{
+						"type": "integer",
+						"name": "FamilySize",
+						"display": {
+							"text": {
+								"default": "How many people live in your house?",
+								"spanish": "¿Cuántas personas viven en su casa?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 17,
+						"__rowNum__": 16,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 4
+					},
+					{
+						"type": "integer",
+						"name": "Earners",
+						"display": {
+							"text": {
+								"default": "How many people earn money in your home?",
+								"spanish": "¿Cuántas personas ganan plata en su casa?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 18,
+						"__rowNum__": 17,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 5
+					},
+					{
+						"type": "integer",
+						"name": "Children",
+						"display": {
+							"text": {
+								"default": "How many people are under 18 years old in your house?",
+								"spanish": "¿Cuántas personas son menores a 18 años en su casa?"
+							}
+						},
+						"required": false,
+						"validation_tags": "user_info",
+						"_row_num": 19,
+						"__rowNum__": 18,
+						"_token_type": "prompt",
+						"_type": "integer",
+						"_branch_label_enclosing_screen": "economic/_screen12",
+						"promptIdx": 6
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 21,
+						"_branch_label_enclosing_screen": "economic/_screen21",
+						"promptIdx": 7
+					}
+				],
+				"validation_tag_map": {
+					"user_info": [
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				},
+				"operations": [
+					{
+						"comments": "begin screen and end screen are used to defined the begin and end of the screen if we want to have multiple fields on one screen.",
+						"clause": "begin screen",
+						"_row_num": 12,
+						"__rowNum__": 11,
+						"_token_type": "begin_screen",
+						"_end_screen_clause": {
+							"clause": "end screen",
+							"_row_num": 20,
+							"__rowNum__": 19,
+							"_token_type": "end_screen"
+						},
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\nactivePromptIndicies.push(1);\nactivePromptIndicies.push(2);\nactivePromptIndicies.push(3);\nactivePromptIndicies.push(4);\nactivePromptIndicies.push(5);\nactivePromptIndicies.push(6);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 21,
+						"operationIdx": 1
+					},
+					{
+						"_row_num": 21,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(7);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 2
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 21,
+						"operationIdx": 3
+					}
+				],
+				"branch_label_map": {
+					"_screen12": 0,
+					"_contents": 2,
+					"_screen21": 2
+				}
+			},
+			"picture": {
+				"section_name": "picture",
+				"nested_sections": {
+				},
+				"reachable_sections": {
+				},
+				"prompts": [
+					{
+						"type": "image",
+						"name": "picture",
+						"display": {
+							"text": {
+								"default": "Take a picture.",
+								"spanish": "Toma una foto"
+							}
+						},
+						"_row_num": 5,
+						"__rowNum__": 4,
+						"_token_type": "prompt",
+						"_type": "image",
+						"_branch_label_enclosing_screen": "picture/_screen5",
+						"promptIdx": 0
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 6,
+						"_branch_label_enclosing_screen": "picture/_screen6",
+						"promptIdx": 1
+					}
+				],
+				"validation_tag_map": {
+				},
+				"operations": [
+					{
+						"_row_num": 5,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 6,
+						"operationIdx": 1
+					},
+					{
+						"_row_num": 6,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(1);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 2
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 6,
+						"operationIdx": 3
+					}
+				],
+				"branch_label_map": {
+					"_screen5": 0,
+					"_contents": 2,
+					"_screen6": 2
+				}
+			},
+			"location": {
+				"section_name": "location",
+				"nested_sections": {
+				},
+				"reachable_sections": {
+				},
+				"prompts": [
+					{
+						"type": "geopoint",
+						"name": "location",
+						"display": {
+							"text": {
+								"default": "Capture your location",
+								"spanish": "Capturar su ubicación"
+							}
+						},
+						"_row_num": 5,
+						"__rowNum__": 4,
+						"_token_type": "prompt",
+						"_type": "geopoint",
+						"_branch_label_enclosing_screen": "location/_screen5",
+						"promptIdx": 0
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 6,
+						"_branch_label_enclosing_screen": "location/_screen6",
+						"promptIdx": 1
+					}
+				],
+				"validation_tag_map": {
+				},
+				"operations": [
+					{
+						"_row_num": 5,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 6,
+						"operationIdx": 1
+					},
+					{
+						"_row_num": 6,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(1);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 2
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 6,
+						"operationIdx": 3
+					}
+				],
+				"branch_label_map": {
+					"_screen5": 0,
+					"_contents": 2,
+					"_screen6": 2
+				}
+			},
+			"stoplight_income": {
+				"section_name": "stoplight_income",
+				"nested_sections": {
+				},
+				"reachable_sections": {
+				},
+				"prompts": [
+					{
+						"type": "select_one_slider",
+						"values_list": "stable_income",
+						"name": "stable",
+						"display": {
+							"text": {
+								"default": "Stable income",
+								"spanish": "Ingresos estables"
+							}
+						},
+						"_row_num": 7,
+						"__rowNum__": 6,
+						"_token_type": "prompt",
+						"_type": "select_one_slider",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen6",
+						"promptIdx": 0
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Red selected",
+								"spanish": "Rojo seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 9,
+						"__rowNum__": 8,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen6",
+						"promptIdx": 1
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Yellow selected",
+								"spanish": "Amarillo seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 12,
+						"__rowNum__": 11,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen6",
+						"promptIdx": 2
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Green selected",
+								"spanish": "Verde seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 15,
+						"__rowNum__": 14,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen6",
+						"promptIdx": 3
+					},
+					{
+						"type": "select_one_slider",
+						"values_list": "credit_values",
+						"name": "credit",
+						"display": {
+							"text": {
+								"default": "Credit",
+								"spanish": "Crédito"
+							}
+						},
+						"_row_num": 19,
+						"__rowNum__": 18,
+						"_token_type": "prompt",
+						"_type": "select_one_slider",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen18",
+						"promptIdx": 4
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Red selected",
+								"spanish": "Rojo seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 21,
+						"__rowNum__": 20,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen18",
+						"promptIdx": 5
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Yellow selected",
+								"spanish": "Amarillo seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 24,
+						"__rowNum__": 23,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen18",
+						"promptIdx": 6
+					},
+					{
+						"type": "note",
+						"display": {
+							"text": {
+								"default": "Green selected",
+								"spanish": "Verde seleccionado"
+							}
+						},
+						"hideInContents": 1,
+						"_row_num": 27,
+						"__rowNum__": 26,
+						"_token_type": "prompt",
+						"_type": "note",
+						"_branch_label_enclosing_screen": "stoplight_income/_screen18",
+						"promptIdx": 7
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 30,
+						"_branch_label_enclosing_screen": "stoplight_income/_screen30",
+						"promptIdx": 8
+					}
+				],
+				"validation_tag_map": {
+				},
+				"operations": [
+					{
+						"clause": "begin screen",
+						"_row_num": 6,
+						"__rowNum__": 5,
+						"_token_type": "begin_screen",
+						"_end_screen_clause": {
+							"clause": "end screen",
+							"_row_num": 17,
+							"__rowNum__": 16,
+							"_token_type": "end_screen"
+						},
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\nif (selected(data('stable'), 'red')) {\nactivePromptIndicies.push(1);\n}\nif (selected(data('stable'), 'yellow')) {\nactivePromptIndicies.push(2);\n}\nif (selected(data('stable'), 'green')) {\nactivePromptIndicies.push(3);\n}\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 0
+					},
+					{
+						"clause": "begin screen",
+						"_row_num": 18,
+						"__rowNum__": 17,
+						"_token_type": "begin_screen",
+						"_end_screen_clause": {
+							"clause": "end screen",
+							"_row_num": 29,
+							"__rowNum__": 28,
+							"_token_type": "end_screen"
+						},
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(4);\nif (selected(data('credit'), 'red')) {\nactivePromptIndicies.push(5);\n}\nif (selected(data('credit'), 'yellow')) {\nactivePromptIndicies.push(6);\n}\nif (selected(data('credit'), 'green')) {\nactivePromptIndicies.push(7);\n}\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 1
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 30,
+						"operationIdx": 2
+					},
+					{
+						"_row_num": 30,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(8);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 3
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 30,
+						"operationIdx": 4
+					}
+				],
+				"branch_label_map": {
+					"_screen6": 0,
+					"_screen18": 1,
+					"_contents": 3,
+					"_screen30": 3
+				}
+			},
+			"initial": {
+				"section_name": "initial",
+				"nested_sections": {
+					"survey": true
+				},
+				"reachable_sections": {
+					"survey": true,
+					"stoplight_income": true,
+					"required": true,
+					"economic": true,
+					"location": true,
+					"picture": true
+				},
+				"prompts": [
+					{
+						"_row_num": 3,
+						"type": "opening",
+						"display": {
+							"text": "Edit form"
+						},
+						"_token_type": "prompt",
+						"_type": "opening",
+						"_branch_label_enclosing_screen": "initial/_screen3",
+						"promptIdx": 0
+					},
+					{
+						"_row_num": 4,
+						"clause": "do section survey",
+						"_token_type": "prompt",
+						"_do_section_name": "survey",
+						"_type": "_section",
+						"promptIdx": 1,
+						"display": {
+							"title": {
+								"default": "Poverty Stoplight Example",
+								"spanish": "El Semáforo de Eliminación de Pobreza"
+							}
+						},
+						"_branch_label_enclosing_screen": "survey/0"
+					},
+					{
+						"_row_num": 5,
+						"type": "summary",
+						"display": {
+							"text": "Summary"
+						},
+						"_token_type": "prompt",
+						"_type": "summary",
+						"_branch_label_enclosing_screen": "initial/_screen5",
+						"promptIdx": 2
+					},
+					{
+						"_row_num": 6,
+						"type": "finalize",
+						"display": {
+							"text": "Save form"
+						},
+						"_token_type": "prompt",
+						"_type": "finalize",
+						"_branch_label_enclosing_screen": "initial/_screen6",
+						"promptIdx": 3
+					},
+					{
+						"_row_num": 8,
+						"type": "instances",
+						"display": {
+							"text": "Saved instances"
+						},
+						"_token_type": "prompt",
+						"_type": "instances",
+						"_branch_label_enclosing_screen": "initial/_screen8",
+						"promptIdx": 4
+					},
+					{
+						"_token_type": "prompt",
+						"type": "contents",
+						"_type": "contents",
+						"_row_num": 10,
+						"_branch_label_enclosing_screen": "initial/_screen10",
+						"promptIdx": 5
+					}
+				],
+				"validation_tag_map": {
+				},
+				"operations": [
+					{
+						"_row_num": 2,
+						"clause": "if // start",
+						"condition": "(opendatakit.getCurrentInstanceId() != null)",
+						"_token_type": "goto_label",
+						"_tag_name": "start",
+						"_branch_label": "_then2",
+						"operationIdx": 0
+					},
+					{
+						"clause": "else // start",
+						"_token_type": "goto_label",
+						"_branch_label": "_else7",
+						"_row_num": 7,
+						"operationIdx": 1
+					},
+					{
+						"_row_num": 3,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(0);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 2
+					},
+					{
+						"_row_num": 4,
+						"clause": "do section survey",
+						"_token_type": "do_section",
+						"_do_section_name": "survey",
+						"operationIdx": 3
+					},
+					{
+						"_row_num": 5,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(2);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 4
+					},
+					{
+						"_row_num": 6,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(3);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 5
+					},
+					{
+						"clause": "end if // start",
+						"_token_type": "goto_label",
+						"_branch_label": "_endif9",
+						"_row_num": 9,
+						"operationIdx": 6
+					},
+					{
+						"_row_num": 8,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(4);\n\nreturn activePromptIndicies;\n}\n",
+						"operationIdx": 7
+					},
+					{
+						"_token_type": "exit_section",
+						"clause": "exit section",
+						"_row_num": 10,
+						"operationIdx": 8
+					},
+					{
+						"_row_num": 10,
+						"_token_type": "begin_screen",
+						"_screen_block": "function() {var activePromptIndicies = [];\nactivePromptIndicies.push(5);\n\nreturn activePromptIndicies;\n}\n",
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 9
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 10,
+						"operationIdx": 10
+					},
+					{
+						"_token_type": "validate",
+						"clause": "validate finalize",
+						"_sweep_name": "finalize",
+						"_row_num": 10,
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 11
+					},
+					{
+						"_token_type": "save_and_terminate",
+						"clause": "save and terminate",
+						"calculation": true,
+						"_row_num": 10,
+						"screen": {
+							"hideInBackHistory": true
+						},
+						"operationIdx": 12
+					},
+					{
+						"_token_type": "resume",
+						"clause": "resume",
+						"_row_num": 10,
+						"operationIdx": 13
+					}
+				],
+				"branch_label_map": {
+					"_then2": 2,
+					"_screen3": 2,
+					"_screen5": 4,
+					"_screen6": 5,
+					"_else7": 7,
+					"_screen8": 7,
+					"_endif9": 8,
+					"_contents": 9,
+					"_screen10": 9,
+					"_finalize": 11
+				}
+			}
+		},
+		"dataTableModel": {
+			"Area": {
+				"_defn": [
+					{
+						"_row_num": 13,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "area_type",
+				"elementKey": "Area",
+				"elementName": "Area",
+				"elementSet": "data",
+				"elementPath": "Area"
+			},
+			"Principal": {
+				"_defn": [
+					{
+						"_row_num": 17,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "principal_activity",
+				"elementKey": "Principal",
+				"elementName": "Principal",
+				"elementSet": "data",
+				"elementPath": "Principal"
+			},
+			"Secondary": {
+				"_defn": [
+					{
+						"_row_num": 18,
+						"section_name": "required"
+					}
+				],
+				"type": "string",
+				"valuesList": "secondary_activity",
+				"elementKey": "Secondary",
+				"elementName": "Secondary",
+				"elementSet": "data",
+				"elementPath": "Secondary"
+			},
+			"Salary": {
+				"_defn": [
+					{
+						"_row_num": 13,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Salary",
+				"elementName": "Salary",
+				"elementSet": "data",
+				"elementPath": "Salary"
+			},
+			"Unpaid": {
+				"_defn": [
+					{
+						"_row_num": 14,
+						"section_name": "economic"
+					}
+				],
+				"type": "string",
+				"valuesList": "yes_no",
+				"elementKey": "Unpaid",
+				"elementName": "Unpaid",
+				"elementSet": "data",
+				"elementPath": "Unpaid"
+			},
+			"WeeklySales": {
+				"_defn": [
+					{
+						"_row_num": 15,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "WeeklySales",
+				"elementName": "WeeklySales",
+				"elementSet": "data",
+				"elementPath": "WeeklySales"
+			},
+			"WeeklyExpenses": {
+				"_defn": [
+					{
+						"_row_num": 16,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "WeeklyExpenses",
+				"elementName": "WeeklyExpenses",
+				"elementSet": "data",
+				"elementPath": "WeeklyExpenses"
+			},
+			"FamilySize": {
+				"_defn": [
+					{
+						"_row_num": 17,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "FamilySize",
+				"elementName": "FamilySize",
+				"elementSet": "data",
+				"elementPath": "FamilySize"
+			},
+			"Earners": {
+				"_defn": [
+					{
+						"_row_num": 18,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Earners",
+				"elementName": "Earners",
+				"elementSet": "data",
+				"elementPath": "Earners"
+			},
+			"Children": {
+				"_defn": [
+					{
+						"_row_num": 19,
+						"section_name": "economic"
+					}
+				],
+				"type": "integer",
+				"elementKey": "Children",
+				"elementName": "Children",
+				"elementSet": "data",
+				"elementPath": "Children"
+			},
+			"picture": {
+				"_defn": [
+					{
+						"_row_num": 5,
+						"section_name": "picture"
+					}
+				],
+				"type": "object",
+				"elementType": "mimeUri",
+				"properties": {
+					"uriFragment": {
+						"type": "string",
+						"elementType": "rowpath",
+						"elementKey": "picture_uriFragment",
+						"elementName": "uriFragment",
+						"elementSet": "data",
+						"elementPath": "picture.uriFragment"
+					},
+					"contentType": {
+						"type": "string",
+						"elementType": "mimeType",
+						"default": "image/*",
+						"elementKey": "picture_contentType",
+						"elementName": "contentType",
+						"elementSet": "data",
+						"elementPath": "picture.contentType"
+					}
+				},
+				"elementKey": "picture",
+				"elementName": "picture",
+				"elementSet": "data",
+				"elementPath": "picture",
+				"listChildElementKeys": [
+					"picture_contentType",
+					"picture_uriFragment"
+				],
+				"notUnitOfRetention": true
+			},
+			"location": {
+				"_defn": [
+					{
+						"_row_num": 5,
+						"section_name": "location"
+					}
+				],
+				"type": "object",
+				"elementType": "geopoint",
+				"properties": {
+					"latitude": {
+						"type": "number",
+						"elementKey": "location_latitude",
+						"elementName": "latitude",
+						"elementSet": "data",
+						"elementPath": "location.latitude"
+					},
+					"longitude": {
+						"type": "number",
+						"elementKey": "location_longitude",
+						"elementName": "longitude",
+						"elementSet": "data",
+						"elementPath": "location.longitude"
+					},
+					"altitude": {
+						"type": "number",
+						"elementKey": "location_altitude",
+						"elementName": "altitude",
+						"elementSet": "data",
+						"elementPath": "location.altitude"
+					},
+					"accuracy": {
+						"type": "number",
+						"elementKey": "location_accuracy",
+						"elementName": "accuracy",
+						"elementSet": "data",
+						"elementPath": "location.accuracy"
+					}
+				},
+				"elementKey": "location",
+				"elementName": "location",
+				"elementSet": "data",
+				"elementPath": "location",
+				"listChildElementKeys": [
+					"location_accuracy",
+					"location_altitude",
+					"location_latitude",
+					"location_longitude"
+				],
+				"notUnitOfRetention": true
+			},
+			"stable": {
+				"_defn": [
+					{
+						"_row_num": 7,
+						"section_name": "stoplight_income"
+					}
+				],
+				"type": "string",
+				"valuesList": "stable_income",
+				"elementKey": "stable",
+				"elementName": "stable",
+				"elementSet": "data",
+				"elementPath": "stable"
+			},
+			"credit": {
+				"_defn": [
+					{
+						"_row_num": 19,
+						"section_name": "stoplight_income"
+					}
+				],
+				"type": "string",
+				"valuesList": "credit_values",
+				"elementKey": "credit",
+				"elementName": "credit",
+				"elementSet": "data",
+				"elementPath": "credit"
+			},
+			"picture_uriFragment": {
+				"type": "string",
+				"elementType": "rowpath",
+				"elementKey": "picture_uriFragment",
+				"elementName": "uriFragment",
+				"elementSet": "data",
+				"elementPath": "picture.uriFragment"
+			},
+			"picture_contentType": {
+				"type": "string",
+				"elementType": "mimeType",
+				"default": "image/*",
+				"elementKey": "picture_contentType",
+				"elementName": "contentType",
+				"elementSet": "data",
+				"elementPath": "picture.contentType"
+			},
+			"location_latitude": {
+				"type": "number",
+				"elementKey": "location_latitude",
+				"elementName": "latitude",
+				"elementSet": "data",
+				"elementPath": "location.latitude"
+			},
+			"location_longitude": {
+				"type": "number",
+				"elementKey": "location_longitude",
+				"elementName": "longitude",
+				"elementSet": "data",
+				"elementPath": "location.longitude"
+			},
+			"location_altitude": {
+				"type": "number",
+				"elementKey": "location_altitude",
+				"elementName": "altitude",
+				"elementSet": "data",
+				"elementPath": "location.altitude"
+			},
+			"location_accuracy": {
+				"type": "number",
+				"elementKey": "location_accuracy",
+				"elementName": "accuracy",
+				"elementSet": "data",
+				"elementPath": "location.accuracy"
+			},
+			"_id": {
+				"type": "string",
+				"isNotNullable": true,
+				"elementKey": "_id",
+				"elementName": "_id",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_id"
+			},
+			"_row_etag": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_row_etag",
+				"elementName": "_row_etag",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_row_etag"
+			},
+			"_sync_state": {
+				"type": "string",
+				"isNotNullable": true,
+				"elementKey": "_sync_state",
+				"elementName": "_sync_state",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_sync_state"
+			},
+			"_conflict_type": {
+				"type": "integer",
+				"isNotNullable": false,
+				"elementKey": "_conflict_type",
+				"elementName": "_conflict_type",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_conflict_type"
+			},
+			"_filter_type": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_filter_type",
+				"elementName": "_filter_type",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_filter_type"
+			},
+			"_filter_value": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_filter_value",
+				"elementName": "_filter_value",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_filter_value"
+			},
+			"_form_id": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_form_id",
+				"elementName": "_form_id",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_form_id"
+			},
+			"_locale": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_locale",
+				"elementName": "_locale",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_locale"
+			},
+			"_savepoint_type": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_savepoint_type",
+				"elementName": "_savepoint_type",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_savepoint_type"
+			},
+			"_savepoint_timestamp": {
+				"type": "string",
+				"isNotNullable": true,
+				"elementKey": "_savepoint_timestamp",
+				"elementName": "_savepoint_timestamp",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_savepoint_timestamp"
+			},
+			"_savepoint_creator": {
+				"type": "string",
+				"isNotNullable": false,
+				"elementKey": "_savepoint_creator",
+				"elementName": "_savepoint_creator",
+				"elementSet": "instanceMetadata",
+				"elementPath": "_savepoint_creator"
+			}
+		},
+		"properties": [
+			{
+				"_partition": "Column",
+				"_aspect": "Area",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"area_type\",\"data_value\":\"metropolitan\",\"display\":{\"text\":{\"default\":\"Metropolitan\",\"spanish\":\"Metropolitana\"}},\"_row_num\":8},{\"choice_list_name\":\"area_type\",\"data_value\":\"urban\",\"display\":{\"text\":{\"default\":\"Urban\",\"spanish\":\"Urbana\"}},\"_row_num\":9},{\"choice_list_name\":\"area_type\",\"data_value\":\"rural\",\"display\":{\"text\":{\"default\":\"Rural\",\"spanish\":\"Rural\"}},\"_row_num\":10}]"
+			},
+			{
+				"_partition": "Column",
+				"_aspect": "Principal",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"principal_activity\",\"data_value\":\"sales\",\"display\":{\"text\":{\"default\":\"Sales\",\"spanish\":\"Ventas (Despensa, Copetín, Comestible)\"}},\"_row_num\":12},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"manufacturing\",\"display\":{\"text\":{\"default\":\"Manufacturing\",\"spanish\":\"Manufactura (Artesanía, Ao Po'i)\"}},\"_row_num\":13},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"services\",\"display\":{\"text\":{\"default\":\"Services\",\"spanish\":\"Servicios (Peluquería, Servicio de limpieza, manicura)\"}},\"_row_num\":14},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"teaching\",\"display\":{\"text\":{\"default\":\"Teaching\",\"spanish\":\"Enseñanza\"}},\"_row_num\":15},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"private_business\",\"display\":{\"text\":{\"default\":\"Employee of a private business\",\"spanish\":\"Empleado/a de empresa privada\"}},\"_row_num\":16},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"public_business\",\"display\":{\"text\":{\"default\":\"Employee of a public business\",\"spanish\":\"Empleado/a del sector publico\"}},\"_row_num\":17},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"other\",\"display\":{\"text\":{\"default\":\"Other\",\"spanish\":\"Otros\"}},\"_row_num\":18},{\"choice_list_name\":\"principal_activity\",\"data_value\":\"none\",\"display\":{\"text\":{\"default\":\"Doesn't have one\",\"spanish\":\"No tiene\"}},\"_row_num\":19}]"
+			},
+			{
+				"_partition": "Column",
+				"_aspect": "Secondary",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_sales\",\"display\":{\"text\":{\"default\":\"Sales\",\"spanish\":\"Ventas (Despensa, Copetín, Comestible)\"}},\"_row_num\":22},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_manufacturing\",\"display\":{\"text\":{\"default\":\"Manufacturing\",\"spanish\":\"Manufactura (Artesanía, Ao Po'i)\"}},\"_row_num\":23},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_services\",\"display\":{\"text\":{\"default\":\"Services\",\"spanish\":\"Servicios (Peluquería, Servicio de limpieza, manicura)\"}},\"_row_num\":24},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"teaching\",\"display\":{\"text\":{\"default\":\"Teaching\",\"spanish\":\"Enseñanza\"}},\"_row_num\":25},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_private_business\",\"display\":{\"text\":{\"default\":\"Employee of a private business\",\"spanish\":\"Empleado/a de empresa privada\"}},\"_row_num\":26},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_public_business\",\"display\":{\"text\":{\"default\":\"Employee of a public business\",\"spanish\":\"Empleado/a del sector publico\"}},\"_row_num\":27},{\"choice_list_name\":\"secondary_activity\",\"data_value\":\"second_none\",\"display\":{\"text\":{\"default\":\"Don't have one\",\"spanish\":\"No tiene\"}},\"_row_num\":28}]"
+			},
+			{
+				"_partition": "Column",
+				"_aspect": "Unpaid",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"yes_no\",\"data_value\":\"yes\",\"display\":{\"text\":{\"default\":\"Yes\",\"spanish\":\"Sí\"}},\"_row_num\":46},{\"choice_list_name\":\"yes_no\",\"data_value\":\"no\",\"display\":{\"text\":{\"default\":\"No\",\"spanish\":\"No\"}},\"_row_num\":47}]"
+			},
+			{
+				"_partition": "Column",
+				"_aspect": "credit",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"credit_values\",\"data_value\":\"credit_red\",\"display\":{\"text\":{\"default\":\"The family doesn't have access to credit (formal or informal) or only has acces to credit from loan sharks\",\"spanish\":\"La familia no tiene acceso a ningún tipo de crédito formal ni informal o tiene acceso a crédito de usureros\"},\"image\":\"media/credit_red.png\"},\"_row_num\":35},{\"choice_list_name\":\"credit_values\",\"data_value\":\"credit_yellow\",\"display\":{\"text\":{\"default\":\"Family members only have acces to informal credit cources\",\"spanish\":\"Un miembro de la familia tiene acceso a créditos informales solamente.\"},\"image\":\"media/credit_yellow.png\"},\"_row_num\":36},{\"choice_list_name\":\"credit_values\",\"data_value\":\"credit_green\",\"display\":{\"text\":{\"default\":\"At least one member of the family has access to formal credit under market conditions\",\"spanish\":\"Al menos un miembro de la familia  tiene acceso a créditos productivos  formales en condiciones de mercado.\"},\"image\":\"media/credit_green.png\"},\"_row_num\":37}]"
+			},
+			{
+				"_partition": "Column",
+				"_aspect": "stable",
+				"_key": "displayChoicesList",
+				"_type": "object",
+				"_value": "[{\"choice_list_name\":\"stable_income\",\"data_value\":\"income_red\",\"display\":{\"text\":{\"default\":\"Family income varies more than 30% monthly\",\"spanish\":\"Los ingresos familiares varían más del 30% de un mes para el otro.\"},\"image\":\"media/income_red.png\"},\"_row_num\":31},{\"choice_list_name\":\"stable_income\",\"data_value\":\"income_yellow\",\"display\":{\"text\":{\"default\":\"Family income varies between 15% and 30% monthly\",\"spanish\":\"Los ingresos familiares varían más del 15% y hasta en 30% de un mes para el otro.\"},\"image\":\"media/income_yellow.png\"},\"_row_num\":32},{\"choice_list_name\":\"stable_income\",\"data_value\":\"income_green\",\"display\":{\"text\":{\"default\":\"Family income does not vary more than 15% mothly over 6 months\",\"spanish\":\"Los ingresos familiares no varían de más de 15% de un mes al otro desde hace 6 meses.\"},\"image\":\"media/income_green.png\"},\"_row_num\":33}]"
+			},
+			{
+				"_partition": "FormType",
+				"_aspect": "default",
+				"_key": "FormType.formType",
+				"_type": "string",
+				"_value": "SURVEY"
+			},
+			{
+				"_partition": "SurveyUtil",
+				"_aspect": "default",
+				"_key": "SurveyUtil.formId",
+				"_type": "string",
+				"_value": "poverty_stoplight_madison"
+			},
+			{
+				"_partition": "Table",
+				"_aspect": "default",
+				"_key": "defaultViewType",
+				"_type": "string",
+				"_value": "SPREADSHEET"
+			},
+			{
+				"_partition": "Table",
+				"_aspect": "default",
+				"_key": "displayName",
+				"_type": "object",
+				"_value": "{\"default\":\"Poverty Stoplight Example\",\"spanish\":\"El Semáforo de Eliminación de Pobreza\"}"
+			}
+		]
+	}
+}
