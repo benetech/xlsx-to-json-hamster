@@ -1,7 +1,5 @@
 package org.benetech.xlsxjson;
 
-import java.util.Set;
-
 public class ConverterBuilder {
   public boolean dotsToNested = true;
   public boolean addRowNums = true;
