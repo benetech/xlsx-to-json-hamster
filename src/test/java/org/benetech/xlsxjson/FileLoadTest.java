@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -46,18 +47,7 @@ public class FileLoadTest extends TestCase {
   public void testLoadFile() throws Exception {
     URL url = this.getClass().getResource("/poverty_stoplight_madison.xlsx");
     File xlsxFile = new File(url.getFile());
-
-    // PoiSaxExample poi = new PoiSaxExample();
-    // poi.processAllSheets(xlsxFile.getAbsolutePath().toString());
-
-    // System.out.println( System.getProperty("user.dir"));
-    // PoiCsvExample csv = new PoiCsvExample();
-    // csv.convertExcelToCSV(xlsxFile.getAbsolutePath().toString(), System.getProperty("user.dir"));
-
-
     assertTrue(xlsxFile.exists());
-
-    // IterateExample.iterate(xlsxFile);
   }
 
   public void testReadSheet() throws Exception {
@@ -74,7 +64,7 @@ public class FileLoadTest extends TestCase {
 
       List<Map<String, Object>> result = converter.convertSheetBody(sheet);
 
-      Gson gson = new Gson();
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
       String json = gson.toJson(result);
       
       logger.info(i + ": " + wb.getSheetName(i));
@@ -101,7 +91,7 @@ public class FileLoadTest extends TestCase {
     builder.dotsToNested(true);
     Converter converter = builder.build();
     
-    String json = converter.convert(xlsxFile);
+    String json = converter.convertToJson(xlsxFile);
     logger.info(json);
   }
 

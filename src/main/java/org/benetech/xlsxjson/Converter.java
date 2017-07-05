@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Converter {
 
@@ -34,34 +36,39 @@ public class Converter {
 
   public boolean addRowNums = true;
 
-  public Set<String> reservedWords;
 
-  public Converter(boolean dotsToNested, boolean addRowNums, Set<String> reservedWords) {
+  public Converter(boolean dotsToNested, boolean addRowNums) {
     this.dotsToNested = dotsToNested;
     this.addRowNums = addRowNums;
-    this.reservedWords = reservedWords;
   }
 
-  public String convert(File file) throws FileNotFoundException, IOException {
+  public String convertToJson(File file) throws FileNotFoundException, IOException {
 
-    String result = "";
-
-    Map<String, List<Map<String, Object>>> workbookMap = convertWorkbook(file);
-    Gson gson = new Gson();
+    final Map<String, List<Map<String, Object>>> workbookMap = convertWorkbook(file);
+    final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     return gson.toJson(workbookMap);
 
   }
 
+  public Map<String, List<Map<String, Object>>> convertToJavaCollections(File file)
+      throws FileNotFoundException, IOException {
+
+    final Map<String, List<Map<String, Object>>> workbookMap = convertWorkbook(file);
+
+    return workbookMap;
+
+  }
+
   Map<String, List<Map<String, Object>>> convertWorkbook(File file)
       throws FileNotFoundException, IOException {
-    Map<String, List<Map<String, Object>>> workbookMap =
+    final Map<String, List<Map<String, Object>>> workbookMap =
         new LinkedHashMap<String, List<Map<String, Object>>>();
-    Workbook wb = new XSSFWorkbook(new FileInputStream(file));
+    final Workbook wb = new XSSFWorkbook(new FileInputStream(file));
     for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-      Sheet sheet = wb.getSheetAt(i);
+      final Sheet sheet = wb.getSheetAt(i);
       logger.info("Converting " + wb.getSheetName(i));
-      List<Map<String, Object>> sheetList = convertSheetBody(sheet);
+      final List<Map<String, Object>> sheetList = convertSheetBody(sheet);
       workbookMap.put(wb.getSheetName(i), sheetList);
 
     }
@@ -71,8 +78,8 @@ public class Converter {
 
   List<Map<String, Object>> convertSheetBody(Sheet sheet) {
 
-    Map<Integer, String> columnNames = new LinkedHashMap<Integer, String>();
-    List<Map<String, Object>> sheetList = new ArrayList<Map<String, Object>>();
+    final Map<Integer, String> columnNames = new LinkedHashMap<Integer, String>();
+    final List<Map<String, Object>> sheetList = new ArrayList<Map<String, Object>>();
 
     if (sheet == null) {
       throw new InvalidSpreadsheetFormatException("Worksheet is null.");
@@ -80,20 +87,20 @@ public class Converter {
     if (sheet.getRow(sheet.getFirstRowNum()) == null) {
       throw new InvalidSpreadsheetFormatException("Worksheet does not have first row.");
     }
-    Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+    final Row firstRow = sheet.getRow(sheet.getFirstRowNum());
     for (int j = firstRow.getFirstCellNum(); j < firstRow.getLastCellNum(); j++) {
-      Cell columnName = firstRow.getCell(j);
+      final Cell columnName = firstRow.getCell(j);
       if (columnName != null && !columnName.getStringCellValue().isEmpty()) {
         columnNames.put(j, columnName.getStringCellValue());
       }
     }
 
-    for (int i = sheet.getFirstRowNum() + 1; i < sheet.getLastRowNum(); i++) {
-      Row row = sheet.getRow(i);
+    for (int i = sheet.getFirstRowNum() + 1; i < sheet.getLastRowNum() + 1; i++) {
+      final Row row = sheet.getRow(i);
       Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
       // We only care about named columns.
       for (Integer columnIndex : columnNames.keySet()) {
-        Object cellString = cellAsJsonConvertibleType(row.getCell(columnIndex));
+        final Object cellString = cellAsJsonConvertibleType(row.getCell(columnIndex));
         if (cellString != null) {
           rowMap.put(columnNames.get(columnIndex), cellString);
         }
@@ -113,12 +120,12 @@ public class Converter {
 
   Map<String, Object> convertDotsToNested(Collection<String> columnNames,
       Map<String, Object> data) {
-    Map<String, Object> newMap = new LinkedHashMap<String, Object>();
+    final Map<String, Object> newMap = new LinkedHashMap<String, Object>();
     for (String columnName : columnNames) {
       if (data.get(columnName) == null) {
         // Do nothing
       } else if (columnName.contains(".")) {
-        String[] columnKeys = StringUtils.split(columnName, ".");
+        final String[] columnKeys = StringUtils.split(columnName, ".");
         Map<String, Object> parentMap;
         if (newMap.get(columnKeys[0]) == null) {
           // Create root of tree
@@ -134,17 +141,15 @@ public class Converter {
             // Create new branch for non-terminating column segment (e.g. text in
             // display.text.spanish)
             parentMap.put(columnKeys[i], new LinkedHashMap<String, Object>());
-          }
-          else if (!(parentMap.get(columnKeys[i]) instanceof Map<?, ?>)) {
+          } else if (!(parentMap.get(columnKeys[i]) instanceof Map<?, ?>)) {
             // Move value sitting at root to "default" key. No data in the nodes of this tree!
-            String defaultValue = (String) parentMap.get(columnKeys[i]);
-            Map<String, Object> newChildMap = new HashMap<String, Object>();
+            final String defaultValue = (String) parentMap.get(columnKeys[i]);
+            final Map<String, Object> newChildMap = new HashMap<String, Object>();
             newChildMap.put("default", defaultValue);
             parentMap.put(columnKeys[i], newChildMap);
           }
           // Move the pointer to the parent map down the branch one segment
           parentMap = (Map<String, Object>) parentMap.get(columnKeys[i]);
-
         }
 
         // Terminating segment (spanish in display.text.spanish or text in display.text)
@@ -164,7 +169,7 @@ public class Converter {
         } else {
           // Subtree exists, adding default
           String defaultValue = (String) data.get(columnName);
-          Map<String, Object> childMap = (Map<String, Object>) newMap.get(columnName);
+          final Map<String, Object> childMap = (Map<String, Object>) newMap.get(columnName);
           childMap.put("default", defaultValue);
         }
       }
@@ -175,16 +180,16 @@ public class Converter {
 
   Object cellAsJsonConvertibleType(Cell cell) {
     Object result = null;
-    
+
     if (cell != null) {
       switch (cell.getCellType()) {
         case Cell.CELL_TYPE_STRING:
-          result = cell.getRichStringCellValue().getString();
+          result = cell.getRichStringCellValue().getString();;
           break;
         case Cell.CELL_TYPE_NUMERIC:
           if (DateUtil.isCellDateFormatted(cell)) {
             result = cell.getDateCellValue().toString();
-          } else if (isDoubleInt(cell.getNumericCellValue())){
+          } else if (isDoubleInt(cell.getNumericCellValue())) {
             result = new Integer((int) cell.getNumericCellValue());
           } else {
             result = cell.getNumericCellValue();
@@ -194,7 +199,7 @@ public class Converter {
           result = cell.getBooleanCellValue();
           break;
         case Cell.CELL_TYPE_FORMULA:
-          result = cell.getCellFormula().toString(); 
+          result = cell.getCellFormula().toString();
       }
 
     }
@@ -203,33 +208,25 @@ public class Converter {
 
   /**
    * Determine if a double can be represented as an int without loss of precise data.
+   * 
    * @param d
    * @return
    * @author Ryan Amos
    * @see https://stackoverflow.com/a/12558622
    */
-  public boolean isDoubleInt(double d)
-  {
-      //select a "tolerance range" for being an integer
-      double TOLERANCE = 1E-5;
-      //do not use (int)d, due to weird floating point conversions!
-      return Math.abs(Math.floor(d) - d) < TOLERANCE;
+  public boolean isDoubleInt(double d) {
+    // select a "tolerance range" for being an integer
+    double TOLERANCE = 1E-5;
+    // do not use (int)d, due to weird floating point conversions!
+    return Math.abs(Math.floor(d) - d) < TOLERANCE;
   }
-  
+
   public boolean isDotsToNested() {
     return dotsToNested;
   }
 
   public void setDotsToNested(boolean dotsToNested) {
     this.dotsToNested = dotsToNested;
-  }
-
-  public Set<String> getReservedWords() {
-    return reservedWords;
-  }
-
-  public void setReservedWords(Set<String> reservedWords) {
-    this.reservedWords = reservedWords;
   }
 
 }
