@@ -2,12 +2,11 @@ package org.benetech.xlsxjson;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,40 +15,23 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class FileLoadTest extends TestCase {
+public class FileLoadTest {
 
   Log logger = LogFactory.getLog(FileLoadTest.class);
-
-  /**
-   * Create the test case
-   *
-   * @param testName name of the test case
-   */
-  public FileLoadTest(String testName) {
-    super(testName);
-  }
-
-  /**
-   * @return the suite of tests being tested
-   */
-  public static Test suite() {
-    return new TestSuite(FileLoadTest.class);
-  }
-
+  
+  @Test
   public void testLoadFile() throws Exception {
     URL url = this.getClass().getResource("/poverty_stoplight_madison.xlsx");
     File xlsxFile = new File(url.getFile());
     assertTrue(xlsxFile.exists());
   }
 
+  @Test
   public void testReadSheet() throws Exception {
     URL url = this.getClass().getResource("/poverty_stoplight_madison.xlsx");
     File xlsxFile = new File(url.getFile());
@@ -59,8 +41,8 @@ public class FileLoadTest extends TestCase {
       Sheet sheet = wb.getSheetAt(i);
       logger.info(i + ": " + wb.getSheetName(i));
 
-      ConverterBuilder builder = new ConverterBuilder();
-      Converter converter = builder.build();
+      Xlsx2JsonConverterBuilder builder = new Xlsx2JsonConverterBuilder();
+      Xlsx2JsonConverter converter = builder.build();
 
       List<Map<String, Object>> result = converter.convertSheetBody(sheet);
 
@@ -84,12 +66,13 @@ public class FileLoadTest extends TestCase {
     wb.close();
   }
   
+  @Test
   public void testReadWorkbook() throws Exception {
     URL url = this.getClass().getResource("/poverty_stoplight_madison.xlsx");
     File xlsxFile = new File(url.getFile());
-    ConverterBuilder builder = new ConverterBuilder();
-    builder.dotsToNested(true);
-    Converter converter = builder.build();
+    Xlsx2JsonConverterBuilder builder = new Xlsx2JsonConverterBuilder();
+    builder.dotsToNested(false);
+    Xlsx2JsonConverter converter = builder.build();
     
     String json = converter.convertToJson(xlsxFile);
     logger.info(json);

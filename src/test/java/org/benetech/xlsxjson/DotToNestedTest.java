@@ -3,9 +3,6 @@ package org.benetech.xlsxjson;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,36 +10,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Test;
 
-import com.google.gson.Gson;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class DotToNestedTest extends TestCase {
+public class DotToNestedTest {
 
   Log logger = LogFactory.getLog(DotToNestedTest.class);
 
-  /**
-   * Create the test case
-   *
-   * @param testName name of the test case
-   */
-  public DotToNestedTest(String testName) {
-    super(testName);
-  }
-
-  /**
-   * @return the suite of tests being tested
-   */
-  public static Test suite() {
-    return new TestSuite(DotToNestedTest.class);
-  }
-
+  @Test
   public void testRowConvertDotsToNestedDefaults() {
     Map<String, Object> rowMap = new HashMap<String, Object>();
 
@@ -50,7 +24,7 @@ public class DotToNestedTest extends TestCase {
     rowMap.put("a.b.c", "blue");
     rowMap.put("e.f", "green");
     rowMap.put("e", "yellow");
-  
+
 
 
     List<String> columnNames = new ArrayList<String>();
@@ -60,15 +34,15 @@ public class DotToNestedTest extends TestCase {
     columnNames.add("e");
 
 
-    ConverterBuilder builder = new ConverterBuilder();
-    Converter converter = builder.build();
+    Xlsx2JsonConverterBuilder builder = new Xlsx2JsonConverterBuilder();
+    Xlsx2JsonConverter converter = builder.build();
 
     Map<String, Object> newRowMap = converter.convertDotsToNested(columnNames, rowMap);
     logger.info(newRowMap);
 
   }
-  
 
+  @Test
   public void testRowConvertDotsToNested() {
     Map<String, Object> rowMap = new HashMap<String, Object>();
 
@@ -94,8 +68,8 @@ public class DotToNestedTest extends TestCase {
     columnNames.add("q");
     columnNames.add("r");
 
-    ConverterBuilder builder = new ConverterBuilder();
-    Converter converter = builder.build();
+    Xlsx2JsonConverterBuilder builder = new Xlsx2JsonConverterBuilder();
+    Xlsx2JsonConverter converter = builder.build();
 
     Map<String, Object> newRowMap = converter.convertDotsToNested(columnNames, rowMap);
     logger.info(newRowMap);

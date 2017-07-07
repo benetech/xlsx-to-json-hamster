@@ -20,13 +20,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.benetech.xlsxjson.exception.InvalidSpreadsheetFormatException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Converter {
+public class Xlsx2JsonConverter {
 
-  private static Log logger = LogFactory.getLog(Converter.class);
+  private static Log logger = LogFactory.getLog(Xlsx2JsonConverter.class);
 
   public static final String ROW_NUM_KEY = "_row_num";
 
@@ -35,7 +36,7 @@ public class Converter {
   public boolean addRowNums = true;
 
 
-  public Converter(boolean dotsToNested, boolean addRowNums) {
+  public Xlsx2JsonConverter(boolean dotsToNested, boolean addRowNums) {
     this.dotsToNested = dotsToNested;
     this.addRowNums = addRowNums;
   }
@@ -182,7 +183,7 @@ public class Converter {
     if (cell != null) {
       switch (cell.getCellType()) {
         case Cell.CELL_TYPE_STRING:
-          result = cell.getRichStringCellValue().getString();;
+          result = StringUtils.trimToNull(cell.getRichStringCellValue().getString());
           break;
         case Cell.CELL_TYPE_NUMERIC:
           if (DateUtil.isCellDateFormatted(cell)) {
@@ -226,5 +227,12 @@ public class Converter {
   public void setDotsToNested(boolean dotsToNested) {
     this.dotsToNested = dotsToNested;
   }
+  
+  public boolean isAddRowNums() {
+    return addRowNums;
+  }
 
+  public void setAddRowNums(boolean addRowNums) {
+    this.addRowNums = addRowNums;
+  }
 }
