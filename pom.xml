@@ -4,7 +4,7 @@
     <groupId>org.benetech</groupId>
     <artifactId>xlsx-to-json</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2-RELEASE</version>
     <name>xlsx-to-json</name>
     <url>http://maven.apache.org</url>
     <properties>
