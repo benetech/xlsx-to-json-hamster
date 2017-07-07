@@ -2,7 +2,7 @@
 Converts an Excel file to a JSON file
 
 This was written to act as a Java replacement to the JavaScript library [js-xlsx](https://github.com/SheetJS/js-xlsx) 
-for the [OpenDataKit 2.0]()-based [Poverty Stoplight]() project.
+for the [OpenDataKit 2.0](https://opendatakit.org/)-based [Poverty Stoplight](http://www.fundacionparaguaya.org.py/?page_id=490) project.
 
 Basically, it uses Apache POI to read in a spreadsheet, converts it to Java Collections objects, 
 and exports to JSON using the Google Gson library.

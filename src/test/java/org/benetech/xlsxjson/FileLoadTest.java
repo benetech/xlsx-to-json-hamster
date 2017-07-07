@@ -71,7 +71,7 @@ public class FileLoadTest {
     URL url = this.getClass().getResource("/poverty_stoplight_madison.xlsx");
     File xlsxFile = new File(url.getFile());
     Xlsx2JsonConverterBuilder builder = new Xlsx2JsonConverterBuilder();
-    builder.dotsToNested(false);
+    builder.dotsToNested(true);
     Xlsx2JsonConverter converter = builder.build();
     
     String json = converter.convertToJson(xlsxFile);

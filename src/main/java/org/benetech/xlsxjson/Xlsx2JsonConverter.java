@@ -158,7 +158,7 @@ public class Xlsx2JsonConverter {
           } else if (!(parentMap.get(columnKeys[i]) instanceof Map<?, ?>)) {
             // Move value sitting at root to "default" key. No data in the nodes of this tree!
             final String defaultValue = (String) parentMap.get(columnKeys[i]);
-            final Map<String, Object> newChildMap = new HashMap<String, Object>();
+            final Map<String, Object> newChildMap = new LinkedHashMap<String, Object>();
             newChildMap.put("default", defaultValue);
             parentMap.put(columnKeys[i], newChildMap);
           }
