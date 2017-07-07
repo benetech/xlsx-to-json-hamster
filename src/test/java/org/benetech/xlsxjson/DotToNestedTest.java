@@ -39,7 +39,18 @@ public class DotToNestedTest {
 
     Map<String, Object> newRowMap = converter.convertDotsToNested(columnNames, rowMap);
     logger.info(newRowMap);
-
+    
+    Map<String, Object> aNode = (Map<String, Object>) newRowMap.get("a");
+    Map<String, Object> bNode = (Map<String, Object>) aNode.get("b");
+    String cNode = (String) bNode.get("c");
+    String dNode = (String) bNode.get("default");
+    Map<String, Object> eNode = (Map<String, Object>) newRowMap.get("e");
+    String fNode = (String) eNode.get("f");
+    String gNode = (String) eNode.get("default");
+    assertThat(cNode, is("blue"));
+    assertThat(dNode, is("red"));
+    assertThat(fNode, is("green"));
+    assertThat(gNode, is("yellow"));
   }
 
   @Test

@@ -24,32 +24,48 @@ import org.benetech.xlsxjson.exception.InvalidSpreadsheetFormatException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+/**
+ * Convert an Excel .xlsx file into JSON.
+ */
 public class Xlsx2JsonConverter {
 
   private static Log logger = LogFactory.getLog(Xlsx2JsonConverter.class);
 
   public static final String ROW_NUM_KEY = "_row_num";
 
+  // Allows you to use dotted column names to build a deeper JSON tree
   public boolean dotsToNested = true;
 
   public boolean addRowNums = true;
-
 
   public Xlsx2JsonConverter(boolean dotsToNested, boolean addRowNums) {
     this.dotsToNested = dotsToNested;
     this.addRowNums = addRowNums;
   }
 
+  /**
+   * Use Gson to convert the file to JSON.
+   * @param file
+   * @return
+   * @throws FileNotFoundException
+   * @throws IOException
+   */
   public String convertToJson(File file) throws FileNotFoundException, IOException {
 
-    final Map<String, List<Map<String, Object>>> workbookMap = convertWorkbook(file);
+    final Map<String, List<Map<String, Object>>> workbookMap = convertToJavaCollections(file);
     final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     return gson.toJson(workbookMap);
 
   }
 
+  /**
+   * Create a structure using Java Collections that can be serialized by Gson.
+   * @param file Excel file
+   * @return
+   * @throws FileNotFoundException
+   * @throws IOException
+   */
   public Map<String, List<Map<String, Object>>> convertToJavaCollections(File file)
       throws FileNotFoundException, IOException {
 
@@ -66,17 +82,15 @@ public class Xlsx2JsonConverter {
     final Workbook wb = new XSSFWorkbook(new FileInputStream(file));
     for (int i = 0; i < wb.getNumberOfSheets(); i++) {
       final Sheet sheet = wb.getSheetAt(i);
-      logger.info("Converting " + wb.getSheetName(i));
+      logger.debug("Converting " + wb.getSheetName(i));
       final List<Map<String, Object>> sheetList = convertSheetBody(sheet);
       workbookMap.put(wb.getSheetName(i), sheetList);
-
     }
     wb.close();
     return workbookMap;
   }
 
   List<Map<String, Object>> convertSheetBody(Sheet sheet) {
-
     final Map<Integer, String> columnNames = new LinkedHashMap<Integer, String>();
     final List<Map<String, Object>> sheetList = new ArrayList<Map<String, Object>>();
 
@@ -135,6 +149,7 @@ public class Xlsx2JsonConverter {
           parentMap = (Map<String, Object>) newMap.get(columnKeys[0]);
         }
 
+        // Iterate through intermediate segments
         for (int i = 1; i < columnKeys.length - 1; i++) {
           if (parentMap.get(columnKeys[i]) == null) {
             // Create new branch for non-terminating column segment (e.g. text in
@@ -175,7 +190,6 @@ public class Xlsx2JsonConverter {
     }
     return newMap;
   }
-
 
   Object cellAsJsonConvertibleType(Cell cell) {
     Object result = null;
